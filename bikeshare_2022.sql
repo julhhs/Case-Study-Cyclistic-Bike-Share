@@ -1,4 +1,4 @@
----------- Cyclistic Bikeshare Case Study ---------
+                   --------------- Cyclistic Bikeshare Case Study --------------
 
 -- Combining all 12-month bike-share datasets and creating a new table named "bikeshare_2022"
 
@@ -302,5 +302,6 @@ GROUP BY
 ORDER By
     total_rides DESC
 
----------- END ---------
+
+                          --------------- END --------------
 
