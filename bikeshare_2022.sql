@@ -268,7 +268,7 @@ GROUP BY
     member_casual
 
 
--- Where are members and casual riders starting and ending their trips
+-- Calculating the start and end locations of trips for both member and casual riders
 
 SELECT 
     member_casual,
@@ -286,7 +286,7 @@ ORDER BY
     num_trips DESC;
 
 
--- Popular month by member and casual riders
+-- Calculating ride frequency by month for both group of riders to identify popular months
 
 SELECT 
     member_casual, 
