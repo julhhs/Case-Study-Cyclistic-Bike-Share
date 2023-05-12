@@ -107,17 +107,17 @@ FROM
 WHERE
 	DATEDIFF(second, started_at, ended_at) > 59;
 
---  Removing duplicates and null values 
+-- Removing duplicates and null values 
 -- Create a new temp table "bikeshare_2022"
 
 USE
     [Bike-Share]    
 SELECT 
-	DISTINCT ride_id, 
-	started_at,
+    DISTINCT ride_id, 
+    started_at,
     ended_at,
-	ride_length
-	day_of_week,
+    ride_length
+    day_of_week,
     start_station_name, 
     start_station_id,
     end_station_name,
@@ -131,23 +131,23 @@ INTO
     [Bike-Share].[dbo].[bikeshare_2022]
 	
 FROM
-	[Bike-Share].[dbo].[rm_outliers] -- The table has been deleted.
+    [Bike-Share].[dbo].[rm_outliers] -- The table has been deleted.
 WHERE 
-	ride_id IS NOT NULL
+    ride_id IS NOT NULL
     AND rideable_type IS NOT NULL
     AND started_at IS NOT NULL
     AND ended_at IS NOT NULL
-	AND ride_length IS NOT NULL
-	AND day_of_week IS NOT NULL
+    AND ride_length IS NOT NULL
+    AND day_of_week IS NOT NULL
     AND start_station_name IS NOT NULL
-	AND start_station_id IS NOT NULL
-	AND end_station_name IS NOT NULL
-	AND end_station_id IS NOT NULL
-	AND start_lat IS NOT NULL
-	AND start_lng IS NOT NULL
-	AND end_lat IS NOT NULL
-	AND end_lng IS NOT NULL
-	AND member_casual IS NOT NULL
+    AND start_station_id IS NOT NULL
+    AND end_station_name IS NOT NULL
+    AND end_station_id IS NOT NULL
+    AND start_lat IS NOT NULL
+    AND start_lng IS NOT NULL
+    AND end_lat IS NOT NULL
+    AND end_lng IS NOT NULL
+    AND member_casual IS NOT NULL
 
 
 
@@ -164,6 +164,7 @@ UPDATE
 	[Bike-Share].[dbo].[bikeshare_2022]
 SET
 	ride_length = DATEDIFF(MINUTE, started_at, ended_at)
+
 
 
 -- Adding and calculalting a new column - "day_of_week"
@@ -184,8 +185,9 @@ SET day_of_week =
 	  WHEN 5 THEN 'Thursday'
 	  WHEN 6 THEN 'Friday'
 	  WHEN 7 THEN 'Saturday'
-	END;
+ 	END;
 	
+
 
 -- Calculating the average ride_length for casusal and member riders by day_of_week
 
@@ -194,12 +196,13 @@ SELECT
 	day_of_week, 
     AVG(ride_length) AS avg_length
 FROM 
-	[Bike-Share].[dbo].[bikeshare_2022]
+ [Bike-Share].[dbo].[bikeshare_2022]
 GROUP BY
     member_casual,
 	day_of_week
 ORDER BY
     member_casual
+
 
 
 -- Calculating the max ride_length
@@ -215,6 +218,7 @@ ORDER BY
     max_ride_length DESC
 
 
+
 -- Calculating the number of trips by type of riders.
 
 SELECT 
@@ -225,6 +229,7 @@ GROUP BY
 	member_casual
 ORDER BY
 	member_casual, num_ride DESC
+
 
 
 -- Calculating the number of trips by type of riders and by day_of_week.
@@ -257,7 +262,6 @@ ORDER BY
 
 
 
-
 -- Calculating the start and end locations of trips for both member and casual riders
 
 SELECT 
@@ -268,7 +272,7 @@ SELECT
 FROM 
     [Bike-Share].[dbo].[bikeshare_2022]
 GROUP BY 
-	member_casual,
+    member_casual,
     start_station_name, 
     end_station_name
 ORDER BY 
@@ -276,19 +280,20 @@ ORDER BY
     num_trips DESC;
 
 
+
 -- Calculating ride frequency by month for both group of riders to identify popular months
 
 SELECT 
-  member_casual, 
-  DATEPART(MONTH, started_at) AS month,
-  COUNT(*) AS total_rides 
+    member_casual, 
+    DATEPART(MONTH, started_at) AS month,
+    COUNT(*) AS total_rides 
 FROM 
-  [Bike-Share].[dbo].[bikeshare_2022]
+    [Bike-Share].[dbo].[bikeshare_2022]
 WHERE 
-  member_casual = 'casual'
+    member_casual = 'casual'
 GROUP BY 
-  member_casual, 
-  DATEPART(MONTH, started_at)
+    member_casual, 
+    DATEPART(MONTH, started_at)
 ORDER By
     total_rides DESC
 
