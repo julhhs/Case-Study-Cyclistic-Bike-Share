@@ -151,9 +151,6 @@ WHERE
 
 
 
-
-
-
 ---------- Analysis ----------
 
 -- Adding and calculalting a new column - "ride_length"
@@ -297,33 +294,3 @@ ORDER By
 
 ---------- END ---------
 
-
--- OPTIONAL --
-
--- Calculating distance
-
-SELECT 
-    member_casual, geography::Point(start_lat, start_lng, 4326).STDistance(geography::Point(end_lat, end_lng, 4326)) / 
-	1000 as distance_in_km
-FROM 
-    [Bike-Share].[dbo].[bikeshare_2022]
-WHERE
-	 [start_station_id] IS NOT NULL
-     AND [end_station_id] IS NOT NULL
-     AND [start_lat] IS NOT NULL
-     AND [start_lng] IS NOT NULL
-     AND [end_lat] IS NOT NULL
-     AND [end_lng] IS NOT NULL
-ORDER BY
-    distance_in_km DESC
-
- |
--------------------------------------------------------
-SELECT start_station_name, COUNT(*) AS station_count
-FROM [Bike-Share].[dbo].[bikeshare_2022]
-GROUP BY start_station_name
-ORDER BY station_count DESC
-OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;
-
-
-  
